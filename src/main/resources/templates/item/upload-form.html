@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>상품 등록 폼</h2>
+        </div>
+
+        <h4 class="mb-3">상품 입력</h4>
+
+        <form th:action th:object="${itemDTO}" method="post" enctype="multipart/form-data">
+
+            <div>
+                <label for="itemName" >상품명</label>
+                <input type="text" id="itemName" th:field="*{itemName}" name="itemName" class="form-control" placeholder="이름을 입력하세요">
+                <div class="field-error" th:errors="*{itemName}">
+                    상품명 오류
+                </div>
+            </div>
+
+            <div>
+                <label for="price">가격</label>
+                <input type="text" id="price" th:field="*{price}" value="" name="price" class="form-control" placeholder="가격을 입력하세요">
+                <div class="field-error" th:errors="*{price}">
+                    가격 오류
+                </div>
+            </div>
+
+            <div>
+                <label for="quantity">수량</label>
+                <input type="text" id="quantity" th:field="*{quantity}" value="" name="quantity" class="form-control" placeholder="수량을 입력하세요">
+                <div class="field-error" th:errors="*{quantity}">
+                    수량 오류
+                </div>
+            </div>
+
+            <ul><br>
+                <li>첨부파일<input type="file" name="attachFile" ></li> <br>
+<!--                <li>이미지 파일들<input type="file" multiple="multiple" name="imageFiles" ></li>-->
+                <li>첫번째 이미지는 썸네일로 들어갑니다</li>
+
+                <div class="video-center">
+                    <div class="filebox">
+                        <div class="btn-upload">
+                            <img id="file-img1" onclick="clickImg(1)">
+                            <img id="file-img2" onclick="clickImg(2)">
+                            <img id="file-img3" onclick="clickImg(3)">
+                            <img id="file-img4" onclick="clickImg(4)">
+                        </div>
+
+                        <input type="file" name="imageFiles" multiple="multiple" id="fileImgFile1" onchange="loadImg(this,1)" required>
+                        <input type="file" name="imageFiles" multiple="multiple" id="fileImgFile2" onchange="loadImg(this,2)">
+                        <input type="file" name="imageFiles" multiple="multiple" id="fileImgFile3" onchange="loadImg(this,3)">
+                        <input type="file" name="imageFiles" multiple="multiple" id="fileImgFile4" onchange="loadImg(this,4)">
+                    </div>
+                </div>
+
+            </ul>
+
+            <hr class="my-4">
+
+            <div class="row">
+                <div class="col">
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">상품 등록</button>
+                </div>
+                <div class="col">
+                    <button class="w-100 btn btn-secondary btn-lg" type="button">취소</button>
+                </div>
+            </div>
+
+        </form>
+
+    </div> <!-- /container -->
+
+<script>
+    function clickImg(num){
+        console.log('aaaaa')
+        $("#fileImgFile" + num).click();
+    }
+
+    loadImg = (inputFile,num) => {
+
+        if(inputFile.files.length == 1){
+            const reader = new FileReader();
+            reader.readAsDataURL(inputFile.files[0]);
+            reader.onload = function(ev){
+                switch(num){
+                    case 1: document.getElementById('file-img1').src = ev.target.result; break;
+                    case 2: document.getElementById('file-img2').src = ev.target.result; break;
+                    case 3: document.getElementById('file-img3').src = ev.target.result; break;
+                    case 4: document.getElementById('file-img4').src = ev.target.result;
+                }
+
+            }
+        } else {
+            switch(num){
+                case 1: document.getElementById('file-img1').src = null; break;
+                case 2: document.getElementById('file-img2').src = null; break;
+                case 3: document.getElementById('file-img3').src = null; break;
+                case 4: document.getElementById('file-img4').src = null;
+            }
+        }
+    }
+</script>
+</body>
+</html>

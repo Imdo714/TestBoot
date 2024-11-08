@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/home.css}" rel="stylesheet" />
+    <script th:src="@{/js/main.js}" rel="stylesheet"></script>
+</head>
+<body>
+
+<div class="select">
+    <input type="button" th:onclick="|location.href='@{/itemadd}'|" value="상품 등록" >
+    <input type="button" th:if="${session == null}" th:onclick="|location.href='@{/login}'|" value="로그인" >
+    <input type="button" th:if="${session != null}" th:onclick="|location.href='@{/logout}'|" value="로그아웃" >
+
+    <input type="button" th:onclick="|location.href='@{/join}'|" value="회원 가입" >
+    <input type="button" th:onclick="|location.href='@{/cart/cartView}'|" value="장바구니" >
+    <input type="button" th:onclick="|location.href='@{/test/upload}'|" value="테스트 업로드" >
+</div>
+
+<p th:text="${id}"></p>
+<p th:text="${role}"></p>
+
+<div class="designer-container">
+    <section class="video-grid">
+
+        <div th:each="item : ${itemList}">
+            <div class="pro-container" th:onclick="|location.href='@{/items/{itemId}(itemId=${item.itemId})}'|">
+
+                <div class="slide" th:if="${item.imageFiles.size() > 0}">
+                    <img th:src="|/img/${item.imageFiles.get(0).storeFileName}|" width="300px" height="300px" alt="이미지 2">
+                </div>
+
+                <div class="desig-name"><strong th:text="${item.itemName}">Item Name</strong></div>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+</body>
+</html>
